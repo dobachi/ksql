@@ -115,6 +115,7 @@ services:
   ksql-datagen-twitter:
     image: "confluentinc/ksql-examples:latest"
     hostname: ksql-datagen-twitter
+    tty: true
     depends_on:
       - kafka
       - schema-registry
@@ -126,7 +127,8 @@ services:
                        cub kafka-ready -b kafka:29092 1 20 && \
                        echo Waiting for Confluent Schema Registry to be ready... && \
                        cub sr-ready schema-registry 8081 20 && \
-                       echo Waiting a few seconds for topic creation to finish...'"
+                       echo Waiting a few seconds for topic creation to finish... && \
+                       /bin/bash'"
     environment:
       KSQL_CONFIG_DIR: "/etc/ksql"
       KSQL_LOG4J_OPTS: "-Dlog4j.configuration=file:/etc/ksql/log4j-rolling.properties"
